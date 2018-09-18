@@ -5,13 +5,14 @@ const {article} = require('../middleware/isHim')
 
 const articleController = require('../controllers/articles')
 
+router.get('/author', articleController.getArticleAuthor)
 router.get('/', articleController.getArticle)
 
 router.post('/',auth,articleController.createArticle)
 
 router.delete('/:id',auth,article,articleController.deleteArticle)
 
-router.put('/:id',articleController.editArticle)
+router.put('/:id',auth,article,articleController.editArticle)
 
 
 module.exports = router;

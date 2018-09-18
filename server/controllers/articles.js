@@ -12,6 +12,16 @@ class Controller {
      })
  }
 
+ static getArticleAuthor(req, res) {
+  Article.find()
+    .populate('userId')
+    .then(articles => {
+      res.status(200).json(articles)
+    })
+    .catch(err => {
+      res.status(500).json({error: err.message})
+    })
+ }
  static createArticle(req, res) {
    let newArticle = {
      title: req.body.title,
@@ -39,7 +49,7 @@ class Controller {
  }
 
   static editArticle(req,res){  
-        Article.findOneAndUpdate({ _id: req.params.id },{
+        Article.update({ _id: req.params.id },{
             title : req.body.title,
             content : req.body.content
         })
@@ -47,9 +57,7 @@ class Controller {
             res.status(200).json({
                 id:req.params.id,
                 msg : `Article has with title ${article.title} been edited`,
-                title : article.title,
-                content : article.content,
-                userId:req.decoded._id
+                userid:req.decoded._id
             })
         })
         .catch(error =>{
@@ -58,5 +66,6 @@ class Controller {
     }
 
 }
+
 
 module.exports = Controller
